@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Main {
 
-    public static int seed;
+    public static long seed;
 
     public static HashMap<String, String>[] cachedAlchemyData = new HashMap[7];
 
@@ -28,19 +28,25 @@ public class Main {
         map[5] = "0: 朱砂\n1: 青金石\n2: 蓝宝石\n3: 绿宝石\n4: 红宝石\n5: 钻石";
         map[6] = "0: 火成催化剂\n1: 草本催化剂\n2: 不稳定催化剂\n3: 晶化催化剂\n4: 金属催化剂\n5: 宝石催化剂";
 
+        System.out.println("Above and Beyound 炼金配方生成器 - V1.0");
+        System.out.println("作者：DancingSnow");
+        System.out.println("源代码：https://github.com/DancingSnow0517/chemistry");
         System.out.print("Seed: ");
         Scanner input = new Scanner(System.in);
         if (input.hasNext()) {
-            seed = input.nextInt();
+            seed = input.nextLong();
         }
         input.close();
 
         gen g = new gen(seed);
 
         for (int cat = 0; cat < 7; cat++) {
+
+            ArrayList<Integer> t = g.generateCode();
             cachedAlchemyData[cat] = new HashMap<>();
-            cachedAlchemyData[cat].put("code", g.generateCode().toString());
+            cachedAlchemyData[cat].put("code", t.toString());
             cachedAlchemyData[cat].put("result", cat == 6 ? "混沌催化剂" : substrates[cat]);
+            cachedAlchemyData[cat].put("mappings", Arrays.toString(g.shuffle()));
         }
         //System.out.println(Arrays.toString(cachedAlchemyData));
         int cat=0;
